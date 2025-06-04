@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Http\DTO\LocationDTO;
-use App\Http\DTO\WeatherDTO;
+use App\Http\DTO\SearchLocationDTO;
+use App\Http\DTO\WeatherCurrentDTO;
 use App\Http\DTO\WeatherForecastDTO;
 use App\Services\Clients\OpenWeatherMapClient;
 use Illuminate\Support\Facades\Cache;
@@ -15,13 +15,13 @@ readonly class WeatherService
         private OpenWeatherMapClient $openWeatherMapClient
     ) {}
 
-    public function getCurrentWeather(WeatherDTO $weatherDTO): ?array
+    public function getCurrentWeather(WeatherCurrentDTO $weatherDTO): ?array
     {
         $cacheKey = $this->generateCacheKey('weather_', $weatherDTO->toArray());
 
         return Cache::remember($cacheKey, now()->addHour(), function () use ($weatherDTO) {
             try {
-                return $this->openWeatherMapClient->getCurrentWeather($weatherDTO);
+                return $this->openWeatherMapClient->getCurrent($weatherDTO);
 
             } catch (\Exception $e) {
                 Log::error('Weather service error: ' . $e->getMessage(), [
@@ -33,7 +33,7 @@ readonly class WeatherService
         });
     }
 
-    public function getForecast(WeatherForecastDTO $weatherForecastDTO): ?array
+    public function getForecastWeather(WeatherForecastDTO $weatherForecastDTO): ?array
     {
         $cacheKey = $this->generateCacheKey('forecast_', $weatherForecastDTO->toArray());
 
@@ -51,7 +51,7 @@ readonly class WeatherService
         });
     }
 
-    public function searchLocations(LocationDTO $locationDTO): ?array
+    public function searchLocation(SearchLocationDTO $locationDTO): ?array
     {
         $cacheKey = 'location_search_' . md5($locationDTO->query . $locationDTO->limit);
 

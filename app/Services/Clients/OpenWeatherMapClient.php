@@ -2,8 +2,8 @@
 
 namespace App\Services\Clients;
 
-use App\Http\DTO\LocationDTO;
-use App\Http\DTO\WeatherDTO;
+use App\Http\DTO\SearchLocationDTO;
+use App\Http\DTO\WeatherCurrentDTO;
 use App\Http\DTO\WeatherForecastDTO;
 use App\Http\DTO\BaseWeatherDTO;
 use Illuminate\Support\Facades\Http;
@@ -24,7 +24,7 @@ class OpenWeatherMapClient
         $this->timeout = config('services.openweather.timeout', 10);
     }
 
-    public function getCurrentWeather(WeatherDTO $weatherRequestDTO): ?array
+    public function getCurrent(WeatherCurrentDTO $weatherRequestDTO): ?array
     {
         try {
             $queryParams = array_merge([
@@ -63,7 +63,7 @@ class OpenWeatherMapClient
         }
     }
 
-    public function searchLocations(LocationDTO $locationSearchDTO): ?array
+    public function searchLocations(SearchLocationDTO $locationSearchDTO): ?array
     {
         try {
             $response = Http::timeout($this->timeout)

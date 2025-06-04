@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class WeatherForecastRequest extends BaseWeatherRequest
+class ForecastWeatherRequest extends BaseWeatherRequest
 {
     public function rules(): array
     {

@@ -2,7 +2,7 @@
 
 namespace App\Http\DTO;
 
-class LocationDTO
+class SearchLocationDTO
 {
     public string $query;
     public int $limit;

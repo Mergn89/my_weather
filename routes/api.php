@@ -9,7 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware('api')->group(function() {
-    Route::get('/weather', [WeatherController::class, 'current']);
-    Route::get('/weather/search', [WeatherController::class, 'search']);
+    Route::get('/weather/current', [WeatherController::class, 'current']);
+    Route::get('/weather/location', [WeatherController::class, 'location']);
     Route::get('/weather/forecast', [WeatherController::class, 'forecast']);
 });
